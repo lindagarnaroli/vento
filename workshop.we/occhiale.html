@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- il titolo vero lo scrive lo script con il nome degli occhiali -->
+  <title>La collezione – Triennale Milano</title>
+  <link rel="stylesheet" href="css/bootstrap-grid.css">
+  <link rel="stylesheet" href="css/stile_esercizio4.css">
+  <link rel="stylesheet" href="css/configuratore.css">
+  <!-- libreria Three.js per il modello 3D -->
+<script type="importmap">
+{
+"imports": {
+"three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+}
+}
+</script>
+  <!-- occhiale.html è una sola pagina per tutti gli occhiali della collezione:
+       l'indirizzo dice quale mostrare (es. occhiale.html?modello=sprint)
+       e lo script riempie la pagina con i dati presi da js/collezione.js -->
+  <script src="js/collezione.js" defer></script>
+  <script src="js/occhiali-galleria.js" defer></script>
+</head>
+<body>
+  <div class="container-fluid">
+        <div class="row pt-4 pb-5 mb-5 align-items-center">
+            <div class="col-6 col-lg-2">
+              <a href="index.html"><img class="logo" src="img/logo-triennale.svg" alt="Triennale Milano"></a>
+            </div>
+            <div class="col-lg-9 nav-wrapper d-none d-lg-block">
+                <ul class="nav-list">
+                      <li class="nav-item">
+                          <a href="#" class="nav-link selected"><strong>Mostre</strong></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#" class="nav-link">Museo del <strong>Design</strong></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#" class="nav-link"><strong>Teatro</strong></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#" class="nav-link"><strong>Visita</strong></a>
+                      </li>
+                </ul>
+            </div>
+            <div class="col-6 col-lg-1 d-flex justify-content-end align-items-center">
+              <button class="btn btn-cerca">Cerca</button>
+              <button class="btn btn-menu d-block d-lg-none">Menu</button>
+            </div>
+        </div>
+
+        <div class="mobile-nav-wrapper d-lg-none">
+                 <button class="btn btn-close mb-3">Close</button> 
+                <ul class="nav-list">
+                      <li class="nav-item">
+                          <a href="#" class="nav-link">Home</a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#" class="nav-link selected"><strong>Mostre</strong></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#" class="nav-link">Museo del <strong>Design</strong></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#" class="nav-link"><strong>Teatro</strong></a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="#" class="nav-link"><strong>Visita</strong></a>
+                      </li>
+                </ul> 
+        </div>
+    </div>
+
+    <!-- ===== qui inizia la pagina dell'occhiale ===== -->
+    <div class="container content-wrapper sezione-configuratore" id="pagina-occhiale">
+        <div class="row mb-4">
+            <div class="col-12">
+                <a class="link-torna" href="index.html#galleria-occhiali">← Torna alla collezione</a>
+            </div>
+            <div class="col-12 col-lg-8 mt-4">
+                <p class="sovratitolo">La collezione</p>
+                <h1 class="font-3" id="occhiale-nome">&nbsp;</h1>
+            </div>
+        </div>
+
+        <!-- se l'indirizzo non corrisponde a nessun occhiale -->
+        <div class="row mb-5" id="occhiale-non-trovato" hidden>
+            <div class="col-12 col-lg-8">
+                <p class="descrizione">Questi occhiali non sono nella collezione. <a href="index.html#galleria-occhiali">Torna alla collezione</a> e scegline un paio.</p>
+            </div>
+        </div>
+
+        <div id="occhiale-contenuto">
+            <div class="row mb-5">
+
+                <!-- lo spazio per il 3D (lo script ci mette il box e il canvas) -->
+                <div class="col-12 col-lg-8">
+                    <div class="griglia-galleria griglia-singola" id="griglia-galleria"></div>
+                </div>
+
+                <!-- informazioni e opzioni degli occhiali -->
+                <div class="col-12 col-lg-4">
+                    <div class="pannello" id="pannello-occhiale">
+                        <p class="descrizione" id="occhiale-descrizione"></p>
+                        <dl class="scheda-occhiale">
+                            <dt>Progetto di</dt>
+                            <dd id="occhiale-autori"></dd>
+                            <dt>Stanghette</dt>
+                            <dd id="occhiale-stanghette"></dd>
+                        </dl>
+
+                        <div class="opzioni-occhiale">
+                        <div class="opzione">
+                            <h3 class="opzione-titolo">Montatura <span class="opzione-valore">Originale</span></h3>
+                            <div class="campioni" data-parte="montatura">
+                                <button class="campione campione-originale selected" data-color="originale" data-nome="Originale" aria-label="Colori originali"></button>
+                                <button class="campione" data-color="#151515" data-nome="Nero" style="background-color: #151515;" aria-label="Nero"></button>
+                                <button class="campione" data-color="#6B3E26" data-nome="Tartaruga" style="background-color: #6B3E26;" aria-label="Tartaruga"></button>
+                                <button class="campione" data-color="#1B2A49" data-nome="Blu navy" style="background-color: #1B2A49;" aria-label="Blu navy"></button>
+                                <button class="campione" data-color="#6D1A2A" data-nome="Rosso vino" style="background-color: #6D1A2A;" aria-label="Rosso vino"></button>
+                                <button class="campione" data-color="#EDEAE3" data-nome="Avorio" style="background-color: #EDEAE3; border-color: #d9d0c1;" aria-label="Avorio"></button>
+                            </div>
+                        </div>
+
+                        <div class="opzione">
+                            <h3 class="opzione-titolo">Lenti <span class="opzione-valore">Originali</span></h3>
+                            <div class="campioni" data-parte="lenti">
+                                <button class="campione campione-originale selected" data-color="originale" data-nome="Originali" aria-label="Lenti originali"></button>
+                                <button class="campione" data-color="#FFFFFF" data-nome="Trasparenti" style="background-color: #FFFFFF; border-color: #d9d0c1;" aria-label="Trasparenti"></button>
+                                <button class="campione" data-color="#5A5A5A" data-nome="Fumé" style="background-color: #5A5A5A;" aria-label="Fumé"></button>
+                                <button class="campione" data-color="#4F6B45" data-nome="Verdi" style="background-color: #4F6B45;" aria-label="Verdi"></button>
+                                <button class="campione" data-color="#8A6038" data-nome="Marroni" style="background-color: #8A6038;" aria-label="Marroni"></button>
+                            </div>
+                        </div>
+
+                        <div class="opzione">
+                            <h3 class="opzione-titolo">Stanghette <span class="opzione-valore" id="stato-stanghette-galleria">Aperte</span></h3>
+                            <div class="forme">
+                                <button class="stanghette selected" data-stato="aperte" data-nome="Aperte">Apri</button>
+                                <button class="stanghette" data-stato="chiuse" data-nome="Chiuse">Chiudi</button>
+                            </div>
+                        </div>
+
+                        <div class="opzione">
+                            <h3 class="opzione-titolo">Esploso <span class="opzione-valore" id="stato-esploso-galleria">Montato</span></h3>
+                            <div class="forme">
+                                <button class="separa selected" data-stato="montato" data-nome="Montato">Montato</button>
+                                <button class="separa" data-stato="esploso" data-nome="Esploso">Esploso</button>
+                            </div>
+                        </div>
+
+                        <div class="opzione">
+                            <h3 class="opzione-titolo">Vista</h3>
+                            <div class="forme">
+                                <button class="vista" data-vista="davanti">Davanti</button>
+                                <button class="vista" data-vista="lato">Lato</button>
+                                <button class="vista" data-vista="alto">Alto</button>
+                                <button class="vista" data-vista="basso">Basso</button>
+                                <button class="vista selected" data-vista="giro">Ruota da solo</button>
+                            </div>
+                        </div>
+
+                        </div>
+
+                        <!-- prova con la fotocamera: apre la finestra qui sotto (js/prova-occhiali.js) -->
+                        <div class="opzione">
+                            <button class="btn-principale" id="prova-apri" disabled>Provali con la fotocamera</button>
+                        </div>
+
+                        <p class="nota">Trascina per girare gli occhiali; usa la rotella per avvicinarti.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- per passare agli altri occhiali senza tornare alla collezione -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="sfoglia-occhiali">
+                        <a id="occhiale-precedente" href="index.html#galleria-occhiali"></a>
+                        <a id="occhiale-successivo" href="index.html#galleria-occhiali"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===== qui finisce la pagina dell'occhiale ===== -->
+
+    <!-- ===== la finestra per provare gli occhiali con la fotocamera e scattare una foto ===== -->
+    <div class="prova" id="prova-occhiali" role="dialog" aria-modal="true" aria-labelledby="prova-titolo" hidden>
+        <div class="prova-finestra">
+            <div class="prova-testa">
+                <h2 class="prova-titolo" id="prova-titolo">Prova gli occhiali <span id="prova-nome"></span></h2>
+                <button class="giro" id="prova-chiudi">Chiudi</button>
+            </div>
+
+            <!-- il video della fotocamera, il 3D degli occhiali sopra e, dopo lo scatto, la foto -->
+            <div class="prova-scena" id="prova-scena">
+                <video playsinline muted></video>
+                <img class="prova-foto" alt="La tua foto con gli occhiali" hidden>
+                <p class="prova-messaggio">Accendo la fotocamera…</p>
+            </div>
+
+            <!-- grandezza degli occhiali sul viso: da 60% a 140% -->
+            <div class="slider prova-grandezza">
+                <label for="prova-grandezza">Grandezza degli occhiali <span id="prova-grandezza-valore">100%</span></label>
+                <div class="prova-grandezza-controlli">
+                    <button class="condividi" id="prova-rimpicciolisci" aria-label="Rimpicciolisci gli occhiali">−</button>
+                    <input type="range" id="prova-grandezza" min="60" max="140" step="2" value="100">
+                    <button class="condividi" id="prova-ingrandisci" aria-label="Ingrandisci gli occhiali">+</button>
+                </div>
+            </div>
+
+            <div class="prova-bottoni">
+                <button class="btn-principale" id="prova-scatta" disabled>Scatta la foto</button>
+                <button class="giro" id="prova-rifai" hidden>Rifai</button>
+            </div>
+
+            <!-- dopo lo scatto: scaricare la foto o mandarla -->
+            <div class="prova-condividi" id="prova-condividi" hidden>
+                <a class="btn-principale" id="prova-scarica" href="#">Scarica</a>
+                <button class="condividi" data-app="instagram">Instagram</button>
+                <button class="condividi" data-app="whatsapp">WhatsApp</button>
+                <button class="condividi" data-app="email">Email</button>
+            </div>
+            <p class="prova-avviso" id="prova-avviso" role="status" hidden></p>
+
+            <p class="nota">La fotocamera serve solo qui e la foto resta sul tuo dispositivo finché non la scarichi o la mandi. Sul telefono Instagram, WhatsApp ed Email aprono il menu Condividi con la foto già pronta.</p>
+        </div>
+    </div>
+
+    <!-- il menu per il telefono (come in index.html) -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const btnMenu = document.querySelector('.btn-menu');
+    const btnClose = document.querySelector('.btn-close');
+    const mobileNavWrapper = document.querySelector('.mobile-nav-wrapper');
+    const navLinks = document.querySelectorAll('.mobile-nav-wrapper .nav-link');
+    
+    // Assicurati che il display sia flex prima di aggiungere show
+    btnMenu.addEventListener('click', function() {
+        mobileNavWrapper.style.display = 'flex';
+        // Piccolo delay per permettere al display di attivarsi
+        setTimeout(() => {
+            mobileNavWrapper.classList.add('show');
+        }, 10);
+    });
+    
+    // Chiude il menu mobile
+    function closeMenu() {
+        mobileNavWrapper.classList.remove('show');
+        // Rimuovi display dopo l'animazione
+        setTimeout(() => {
+            if (!mobileNavWrapper.classList.contains('show')) {
+                mobileNavWrapper.style.display = 'none';
+            }
+        }, 300); // Stesso tempo della transizione CSS
+    }
+    
+    btnClose.addEventListener('click', closeMenu);
+    
+    mobileNavWrapper.addEventListener('click', function(e) {
+        let isLink = false;
+        navLinks.forEach(function(link) {
+            if (link.contains(e.target)) {
+                isLink = true;
+            }
+        });
+        
+        if (!isLink) {
+            closeMenu();
+        }
+    });
+});
+</script>
+
+</body>
+</html>
