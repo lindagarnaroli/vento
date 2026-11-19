@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vento – occhiali da trekking di Linda Garnaroli</title>
+  <link rel="stylesheet" href="css/bootstrap-grid.css">
+  <link rel="stylesheet" href="css/stile_esercizio4.css">
+  <link rel="stylesheet" href="css/configuratore.css">
+  <!-- i caratteri: Archivo (titoli larghi, da cartello di sentiero) e IBM Plex Mono (quote e coordinate) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <!-- la grafica "montagna e trekking", solo per questa pagina (si aggiunge agli altri fogli di stile) -->
+  <link rel="stylesheet" href="css/vento.css">
+  <!-- libreria Three.js per il modello 3D -->
+<script type="importmap">
+{
+"imports": {
+"three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+}
+}
+</script>
+  <!-- gli occhiali in 3D: il configuratore (stesso script di index.html) -->
+  <script src="js/occhiali.js" defer></script>
+  <!-- le viste e l'esploso degli occhiali (stesso script di index.html) -->
+  <script src="js/occhiali-viste.js" defer></script>
+  <!-- la copertina: il video degli occhiali (o, se manca, il filmato 3D) -->
+  <script src="js/copertina-3d.js" defer></script>
+  <!-- provali con la fotocamera: prende gli occhiali dal configuratore (usa js/prova-occhiali.js) -->
+  <script src="js/prova-vento.js" defer></script>
+  <!-- le frecce per scorrere l'attrezzatura -->
+  <script src="js/attrezzatura.js" defer></script>
+  <!-- il carrello: legge i colori scelti nel configuratore -->
+  <script src="js/carrello.js" defer></script>
+</head>
+<body class="tema-montagna">
+    <!-- ===== testata: marchio a sinistra, menu al centro, carrello a destra ===== -->
+    <header class="testata">
+        <a class="marchio" href="#copertina">
+            <!-- il marchio: una piccola montagna disegnata con due cime -->
+            <svg class="marchio-icona" viewBox="0 0 32 20" aria-hidden="true"><path d="M1 19 L11 5 L15 10 L21 2 L31 19 Z"/></svg>
+            <span class="marchio-nome">Vento</span>
+            <span class="marchio-firma">Linda Garnaroli</span>
+        </a>
+        <nav class="testata-menu d-none d-lg-block" aria-label="Menu principale">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#progetto" class="nav-link">Il progetto</a></li>
+                <li class="nav-item"><a href="#configuratore-occhiali" class="nav-link">Il modello</a></li>
+                <li class="nav-item"><a href="#viste-occhiali" class="nav-link">Viste ed esploso</a></li>
+                <li class="nav-item"><a href="#attrezzatura" class="nav-link">Attrezzatura</a></li>
+                <li class="nav-item"><a href="#designer" class="nav-link">La designer</a></li>
+                <li class="nav-item"><a href="#contatti" class="nav-link">Contatti</a></li>
+            </ul>
+        </nav>
+        <div class="testata-azioni">
+            <button class="testata-carrello" id="carrello-apri" aria-label="Apri il carrello">Carrello <span class="carrello-conta" id="carrello-numero">0</span></button>
+            <button class="btn btn-menu d-block d-lg-none">Menu</button>
+        </div>
+    </header>
+
+    <!-- il menu per il telefono (si apre con il bottone Menu) -->
+    <div class="container-fluid">
+        <div class="mobile-nav-wrapper d-lg-none">
+                 <button class="btn btn-close mb-3">Close</button> 
+                <ul class="nav-list">
+                      <li class="nav-item"><a href="#progetto" class="nav-link">Il progetto</a></li>
+                      <li class="nav-item"><a href="#configuratore-occhiali" class="nav-link">Il modello</a></li>
+                      <li class="nav-item"><a href="#viste-occhiali" class="nav-link">Viste ed esploso</a></li>
+                      <li class="nav-item"><a href="#attrezzatura" class="nav-link">Attrezzatura</a></li>
+                      <li class="nav-item"><a href="#designer" class="nav-link">La designer</a></li>
+                      <li class="nav-item"><a href="#contatti" class="nav-link">Contatti</a></li>
+                </ul>
+        </div>
+    </div>
+
+    <!-- ===== copertina: il video degli occhiali a tutto schermo, con le montagne davanti =====
+         Se esiste il file video/vento.mp4 si vede quello; altrimenti js/copertina-3d.js
+         mostra gli occhiali in 3D che girano piano, come un filmato. -->
+    <section class="copertina" id="copertina">
+        <video class="copertina-video" id="copertina-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+            <source src="video/vento.mp4" type="video/mp4">
+        </video>
+        <div class="copertina-3d" id="copertina-3d" aria-hidden="true"></div>
+
+        <div class="copertina-testi">
+            <h1 class="titolo-grande">Vento</h1>
+            <p class="sottotitolo">Occhiali da trekking di Linda Garnaroli. Leggeri sul viso, aperti verso il sentiero.</p>
+            <div class="copertina-bottoni">
+                <a class="bottone-pieno" href="#configuratore-occhiali">Componi il tuo paio</a>
+                <button class="bottone-vuoto apri-prova" type="button">Provali addosso</button>
+            </div>
+        </div>
+
+        <img class="copertina-montagne" src="img/montagne.svg" alt="">
+        <a class="copertina-giu" href="#tappe">Scendi a valle ↓</a>
+    </section>
+
+    <!-- ===== le tappe: perché sono fatti così (quattro "tappe" come in un itinerario) ===== -->
+    <section class="container content-wrapper tappe" id="tappe">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="tappa">
+                    <p class="tappa-numero">Tappa 01</p>
+                    <h3 class="tappa-titolo">Lo sguardo sul sentiero</h3>
+                    <p>Il frontale tiene le lenti solo dall'alto: verso il basso la vista resta libera, per vedere dove metti i piedi.</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="tappa">
+                    <p class="tappa-numero">Tappa 02</p>
+                    <h3 class="tappa-titolo">Contro vento e riverbero</h3>
+                    <p>Le lenti avvolgono il viso e riparano dall'aria e dalla luce che rimbalza su neve e roccia.</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="tappa">
+                    <p class="tappa-numero">Tappa 03</p>
+                    <h3 class="tappa-titolo">Leggeri per ore</h3>
+                    <p>Mezza montatura e stanghette sottili: si sentono appena, anche dopo una giornata di cammino.</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="tappa">
+                    <p class="tappa-numero">Tappa 04</p>
+                    <h3 class="tappa-titolo">Si smontano in rifugio</h3>
+                    <p>Piccoli ganci uniscono frontale e stanghette: le parti si separano e si sostituiscono.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== il progetto: testo e dettagli a tendina ===== -->
+    <section class="container content-wrapper dettagli" id="progetto">
+        <div class="row">
+            <div class="col-12 col-lg-5">
+                <p class="etichetta">Il progetto</p>
+                <h2 class="titolo-sezione">Fatti per salire</h2>
+                <img class="profilo-sentiero" src="img/profilo.svg" alt="">
+            </div>
+            <div class="col-12 col-lg-6 offset-lg-1">
+                <p class="testo-lungo">Vento è un occhiale da trekking. L'idea di partenza è togliere peso e ingombro dove non servono: il frontale sostiene le lenti solo dall'alto, così il campo visivo verso il basso resta aperto e l'occhiale si sente appena sul viso, anche in salita.</p>
+
+                <!-- <details> si apre e si chiude da solo, senza JavaScript -->
+                <details open>
+                    <summary>Progetto</summary>
+                    <p>Pensato per chi cammina in montagna, dal sentiero nel bosco alla cresta. Le lenti avvolgono un po' il viso per proteggere dal vento e dalla luce laterale; i piccoli ganci tra frontale e stanghette permettono di smontare e sostituire le parti.</p>
+                </details>
+                <details>
+                    <summary>Forma</summary>
+                    <p>Mezza montatura: il frontale corre sopra le lenti e le lascia libere in basso. Le stanghette sono sottili e leggermente curve, per seguire la testa sotto un cappello o una fascia.</p>
+                </details>
+                <details>
+                    <summary>Parti</summary>
+                    <p>Montatura, lenti, ganci e stanghette: le vedi separate nell'esploso, più in basso.</p>
+                </details>
+                <details>
+                    <summary>Il modello 3D</summary>
+                    <p>Trascina per girare gli occhiali, usa la rotella per avvicinarti. Nel pannello scegli i colori di montatura, aste e lenti e la finitura.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== qui inizia la sezione degli occhiali (stessa struttura della lampada) ===== -->
+    <div class="container content-wrapper sezione-configuratore" id="configuratore-occhiali">
+        <div class="row mb-4">
+            <div class="col-12 col-lg-8">
+                <p class="sovratitolo">Il modello · Oggetti da indossare</p>
+                <h2 class="font-3">Osserva gli occhiali</h2>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-12">
+            <!-- il "palco": il 3D occupa tutta la larghezza del box e le opzioni stanno
+                 in una barra dentro il box, in basso (sul telefono la barra va sotto il box) -->
+            <div class="palco">
+
+            <!-- lo spazio per il 3D degli occhiali.
+                 data-adatta="larghezza": js/occhiali.js mette la camera in modo che gli occhiali
+                 riempiano la larghezza del box -->
+                <div id="visore-occhiali" class="visore visore-intero" data-adatta="larghezza">
+                    <p class="visore-segnaposto">Caricamento del modello 3D…</p>
+                    <p class="palco-aiuto">Trascina per girarli · rotella per avvicinarti</p>
+                </div>
+
+            <!-- la barra con le opzioni degli occhiali -->
+            <div class="pannello pannello-barra">
+
+                <!-- modelli pronti: ogni bottone imposta montatura, aste e lenti insieme -->
+                <div class="opzione">
+                    <!-- i colori disponibili: rosso, rosa, fucsia, lilla, azzurro, giallo, bianco, nero, arancio,
+                         verde pisello, viola, blu, verde acqua. I modelli pronti usano gli stessi colori
+                         (data-montatura, data-aste, data-lenti devono essere uguali a un data-color) -->
+                    <h3 class="opzione-titolo">Modello <span class="opzione-valore" id="nome-modello-occhiali">Alba</span></h3>
+                    <div class="forme">
+                        <button class="modello selected" data-nome="Alba"
+                            data-montatura="#F48FB1" data-aste="#C8A2E8" data-lenti="#6EC6F1">Alba</button>
+                        <button class="modello" data-nome="Vetta"
+                            data-montatura="#1E4FD8" data-aste="#FFD23F" data-lenti="#FF7A1A">Vetta</button>
+                        <button class="modello" data-nome="Bosco"
+                            data-montatura="#8BC34A" data-aste="#2EC4B6" data-lenti="#FFD23F">Bosco</button>
+                    </div>
+                </div>
+
+                <div class="opzione">
+                    <h3 class="opzione-titolo">Montatura <span class="opzione-valore">Rosa</span></h3>
+                    <div class="campioni" data-parte="montatura">
+                        <button class="campione" data-color="#E53935" data-nome="Rosso" style="background-color: #E53935;" aria-label="Rosso"></button>
+                        <button class="campione selected" data-color="#F48FB1" data-nome="Rosa" style="background-color: #F48FB1;" aria-label="Rosa"></button>
+                        <button class="campione" data-color="#E91E8C" data-nome="Fucsia" style="background-color: #E91E8C;" aria-label="Fucsia"></button>
+                        <button class="campione" data-color="#C8A2E8" data-nome="Lilla" style="background-color: #C8A2E8;" aria-label="Lilla"></button>
+                        <button class="campione" data-color="#6EC6F1" data-nome="Azzurro" style="background-color: #6EC6F1;" aria-label="Azzurro"></button>
+                        <button class="campione" data-color="#FFD23F" data-nome="Giallo" style="background-color: #FFD23F;" aria-label="Giallo"></button>
+                        <button class="campione" data-color="#F5F5F0" data-nome="Bianco" style="background-color: #F5F5F0;" aria-label="Bianco"></button>
+                        <button class="campione" data-color="#151515" data-nome="Nero" style="background-color: #151515;" aria-label="Nero"></button>
+                        <button class="campione" data-color="#FF7A1A" data-nome="Arancio" style="background-color: #FF7A1A;" aria-label="Arancio"></button>
+                        <button class="campione" data-color="#8BC34A" data-nome="Verde pisello" style="background-color: #8BC34A;" aria-label="Verde pisello"></button>
+                        <button class="campione" data-color="#7B3FA0" data-nome="Viola" style="background-color: #7B3FA0;" aria-label="Viola"></button>
+                        <button class="campione" data-color="#1E4FD8" data-nome="Blu" style="background-color: #1E4FD8;" aria-label="Blu"></button>
+                        <button class="campione" data-color="#2EC4B6" data-nome="Verde acqua" style="background-color: #2EC4B6;" aria-label="Verde acqua"></button>
+                    </div>
+                </div>
+
+                <div class="opzione">
+                    <h3 class="opzione-titolo">Aste <span class="opzione-valore">Lilla</span></h3>
+                    <div class="campioni" data-parte="aste">
+                        <button class="campione" data-color="#E53935" data-nome="Rosso" style="background-color: #E53935;" aria-label="Rosso"></button>
+                        <button class="campione" data-color="#F48FB1" data-nome="Rosa" style="background-color: #F48FB1;" aria-label="Rosa"></button>
+                        <button class="campione" data-color="#E91E8C" data-nome="Fucsia" style="background-color: #E91E8C;" aria-label="Fucsia"></button>
+                        <button class="campione selected" data-color="#C8A2E8" data-nome="Lilla" style="background-color: #C8A2E8;" aria-label="Lilla"></button>
+                        <button class="campione" data-color="#6EC6F1" data-nome="Azzurro" style="background-color: #6EC6F1;" aria-label="Azzurro"></button>
+                        <button class="campione" data-color="#FFD23F" data-nome="Giallo" style="background-color: #FFD23F;" aria-label="Giallo"></button>
+                        <button class="campione" data-color="#F5F5F0" data-nome="Bianco" style="background-color: #F5F5F0;" aria-label="Bianco"></button>
+                        <button class="campione" data-color="#151515" data-nome="Nero" style="background-color: #151515;" aria-label="Nero"></button>
+                        <button class="campione" data-color="#FF7A1A" data-nome="Arancio" style="background-color: #FF7A1A;" aria-label="Arancio"></button>
+                        <button class="campione" data-color="#8BC34A" data-nome="Verde pisello" style="background-color: #8BC34A;" aria-label="Verde pisello"></button>
+                        <button class="campione" data-color="#7B3FA0" data-nome="Viola" style="background-color: #7B3FA0;" aria-label="Viola"></button>
+                        <button class="campione" data-color="#1E4FD8" data-nome="Blu" style="background-color: #1E4FD8;" aria-label="Blu"></button>
+                        <button class="campione" data-color="#2EC4B6" data-nome="Verde acqua" style="background-color: #2EC4B6;" aria-label="Verde acqua"></button>
+                    </div>
+                </div>
+
+                <div class="opzione">
+                    <h3 class="opzione-titolo">Lenti <span class="opzione-valore">Azzurro</span></h3>
+                    <div class="campioni" data-parte="lenti">
+                        <button class="campione" data-color="#E53935" data-nome="Rosso" style="background-color: #E53935;" aria-label="Rosso"></button>
+                        <button class="campione" data-color="#F48FB1" data-nome="Rosa" style="background-color: #F48FB1;" aria-label="Rosa"></button>
+                        <button class="campione" data-color="#E91E8C" data-nome="Fucsia" style="background-color: #E91E8C;" aria-label="Fucsia"></button>
+                        <button class="campione" data-color="#C8A2E8" data-nome="Lilla" style="background-color: #C8A2E8;" aria-label="Lilla"></button>
+                        <button class="campione selected" data-color="#6EC6F1" data-nome="Azzurro" style="background-color: #6EC6F1;" aria-label="Azzurro"></button>
+                        <button class="campione" data-color="#FFD23F" data-nome="Giallo" style="background-color: #FFD23F;" aria-label="Giallo"></button>
+                        <button class="campione" data-color="#F5F5F0" data-nome="Bianco" style="background-color: #F5F5F0;" aria-label="Bianco"></button>
+                        <button class="campione" data-color="#151515" data-nome="Nero" style="background-color: #151515;" aria-label="Nero"></button>
+                        <button class="campione" data-color="#FF7A1A" data-nome="Arancio" style="background-color: #FF7A1A;" aria-label="Arancio"></button>
+                        <button class="campione" data-color="#8BC34A" data-nome="Verde pisello" style="background-color: #8BC34A;" aria-label="Verde pisello"></button>
+                        <button class="campione" data-color="#7B3FA0" data-nome="Viola" style="background-color: #7B3FA0;" aria-label="Viola"></button>
+                        <button class="campione" data-color="#1E4FD8" data-nome="Blu" style="background-color: #1E4FD8;" aria-label="Blu"></button>
+                        <button class="campione" data-color="#2EC4B6" data-nome="Verde acqua" style="background-color: #2EC4B6;" aria-label="Verde acqua"></button>
+                    </div>
+                </div>
+
+                <div class="opzione">
+                    <h3 class="opzione-titolo">Stanghette <span class="opzione-valore">Aperte</span></h3>
+                    <div class="forme">
+                        <button class="stanghette selected" data-stato="aperte" data-nome="Aperte">Apri</button>
+                        <button class="stanghette" data-stato="chiuse" data-nome="Chiuse">Chiudi</button>
+                    </div>
+                </div>
+
+                <div class="opzione">
+                    <h3 class="opzione-titolo">Finitura <span class="opzione-valore">Lucido</span></h3>
+                    <div class="forme">
+                        <button class="finitura" data-finitura="opaco" data-nome="Opaco">Opaco</button>
+                        <button class="finitura selected" data-finitura="lucido" data-nome="Lucido">Lucido</button>
+                    </div>
+                </div>
+
+                <div class="opzione">
+                    <h3 class="opzione-titolo">Vista</h3>
+                    <div class="forme">
+                        <button class="vista" data-vista="davanti">Davanti</button>
+                        <button class="vista" data-vista="lato">Di lato</button>
+                        <button class="vista" data-vista="alto">Dall'alto</button>
+                    </div>
+                    <div class="forme">
+                        <!-- davanti, lato, alto e di nuovo davanti: 5 secondi per ogni posizione -->
+                        <button class="giro" id="giro-occhiali">Giro automatico</button>
+                    </div>
+                </div>
+
+                <!-- acquisto: aggiunge al carrello gli occhiali con i colori scelti qui sopra -->
+                <div class="opzione acquisto">
+                    <p class="prezzo" id="prezzo-occhiali"></p>
+                    <button class="bottone-pieno bottone-largo" id="aggiungi-carrello">Aggiungi al carrello</button>
+                    <!-- provali con i colori scelti qui sopra (js/prova-vento.js) -->
+                    <button class="bottone-vuoto bottone-largo apri-prova" id="prova-apri" type="button">Provali con la fotocamera</button>
+                </div>
+
+            </div>
+
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===== qui finisce la sezione degli occhiali ===== -->
+
+    <!-- ===== qui inizia la row con le viste e l'esploso degli occhiali ===== -->
+    <div class="container content-wrapper sezione-configuratore" id="viste-occhiali">
+        <div class="row mb-4">
+            <div class="col-12 col-lg-8">
+                <p class="sovratitolo">Gli occhiali da vicino</p>
+                <h2 class="font-3">Viste ed esploso</h2>
+            </div>
+        </div>
+        <div class="row mb-5">
+
+            <!-- box 1: tutte le viste insieme, come in una tavola tecnica -->
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                <div id="visore-viste" class="visore visore-medio">
+                    <p class="visore-segnaposto">Caricamento del modello 3D…</p>
+                    <!-- la griglia disegna le divisioni e i nomi delle 4 viste sopra il 3D -->
+                    <div class="griglia-viste">
+                        <span>Davanti</span>
+                        <span>Di lato</span>
+                        <span>Dall'alto</span>
+                        <span>Prospettiva</span>
+                    </div>
+                </div>
+                <p class="didascalia"><strong>Le viste</strong><br>Davanti, di lato e dall'alto senza prospettiva, come nel disegno tecnico; nell'ultimo riquadro gli occhiali girano su se stessi.</p>
+            </div>
+
+            <!-- box 2: l'esploso, i pezzi si separano -->
+            <div class="col-12 col-lg-6">
+                <div id="visore-esploso" class="visore visore-medio">
+                    <p class="visore-segnaposto">Caricamento del modello 3D…</p>
+                </div>
+                <div class="forme">
+                    <button class="separa selected" data-stato="esploso">Esploso</button>
+                    <button class="separa" data-stato="montato">Montato</button>
+                </div>
+                <p class="didascalia"><strong>L'esploso</strong><br>Le parti degli occhiali separate: montatura, lenti, cerniere e stanghette. Trascina per girarlo.</p>
+            </div>
+
+        </div>
+    </div>
+    <!-- ===== qui finisce la row con le viste e l'esploso ===== -->
+
+    <!-- ===== l'attrezzatura: gli altri prodotti per la montagna, da scorrere con le frecce =====
+         Ogni prodotto si aggiunge al carrello con il suo bottone (nome, prezzo e descrizione
+         sono scritti nei data-...; i prezzi sono esempi). I disegni sono in img/attrezzatura/. -->
+    <section class="attrezzatura" id="attrezzatura">
+        <div class="container content-wrapper">
+            <div class="attrezzatura-testa">
+                <div>
+                    <p class="etichetta">Attrezzatura</p>
+                    <h2 class="titolo-sezione">Tutto per salire</h2>
+                </div>
+                <div class="frecce">
+                    <button class="freccia" id="attrezzatura-indietro" type="button" aria-label="Prodotti precedenti">←</button>
+                    <button class="freccia" id="attrezzatura-avanti" type="button" aria-label="Prodotti successivi">→</button>
+                </div>
+            </div>
+        </div>
+        <ul class="carosello" id="carosello-attrezzatura" aria-label="Attrezzatura per la montagna">
+                <li class="prodotto">
+                    <div class="prodotto-figura"><img src="img/attrezzatura/pantaloni.svg" alt="Pantaloni da trekking Cresta, disegno" loading="lazy"></div>
+                    <p class="prodotto-categoria">Pantaloni da trekking</p>
+                    <h3 class="prodotto-nome">Cresta</h3>
+                    <p class="prodotto-testo">Tessuto elastico che segue il passo; le gambe si staccano e diventano pantaloncini.</p>
+                    <div class="prodotto-piede">
+                        <span class="prodotto-prezzo" data-prezzo="89"></span>
+                        <button class="bottone-pieno aggiungi-prodotto" type="button"
+                            data-id="cresta" data-nome="Pantaloni Cresta" data-prezzo="89"
+                            data-dettagli="Pantaloni da trekking" data-immagine="img/attrezzatura/pantaloni.svg">Aggiungi</button>
+                    </div>
+                </li>
+                <li class="prodotto">
+                    <div class="prodotto-figura"><img src="img/attrezzatura/zaino.svg" alt="Zaino 28 litri Rifugio, disegno" loading="lazy"></div>
+                    <p class="prodotto-categoria">Zaino 28 litri</p>
+                    <h3 class="prodotto-nome">Rifugio</h3>
+                    <p class="prodotto-testo">Schienale aerato e tasca per la borraccia: il giusto per una giornata in quota.</p>
+                    <div class="prodotto-piede">
+                        <span class="prodotto-prezzo" data-prezzo="119"></span>
+                        <button class="bottone-pieno aggiungi-prodotto" type="button"
+                            data-id="rifugio" data-nome="Zaino Rifugio" data-prezzo="119"
+                            data-dettagli="Zaino 28 litri" data-immagine="img/attrezzatura/zaino.svg">Aggiungi</button>
+                    </div>
+                </li>
+                <li class="prodotto">
+                    <div class="prodotto-figura"><img src="img/attrezzatura/borraccia.svg" alt="Borraccia termica 0,75 L Sorgente, disegno" loading="lazy"></div>
+                    <p class="prodotto-categoria">Borraccia termica 0,75 L</p>
+                    <h3 class="prodotto-nome">Sorgente</h3>
+                    <p class="prodotto-testo">Tiene l'acqua fresca per ore; il tappo con l'anello si aggancia allo zaino.</p>
+                    <div class="prodotto-piede">
+                        <span class="prodotto-prezzo" data-prezzo="32"></span>
+                        <button class="bottone-pieno aggiungi-prodotto" type="button"
+                            data-id="sorgente" data-nome="Borraccia Sorgente" data-prezzo="32"
+                            data-dettagli="Borraccia termica 0,75 L" data-immagine="img/attrezzatura/borraccia.svg">Aggiungi</button>
+                    </div>
+                </li>
+                <li class="prodotto">
+                    <div class="prodotto-figura"><img src="img/attrezzatura/giacca.svg" alt="Giacca antivento Forcella, disegno" loading="lazy"></div>
+                    <p class="prodotto-categoria">Giacca antivento</p>
+                    <h3 class="prodotto-nome">Forcella</h3>
+                    <p class="prodotto-testo">Leggera e ripiegabile, per il vento che arriva sui passi e sulle creste.</p>
+                    <div class="prodotto-piede">
+                        <span class="prodotto-prezzo" data-prezzo="149"></span>
+                        <button class="bottone-pieno aggiungi-prodotto" type="button"
+                            data-id="forcella" data-nome="Giacca Forcella" data-prezzo="149"
+                            data-dettagli="Giacca antivento" data-immagine="img/attrezzatura/giacca.svg">Aggiungi</button>
+                    </div>
+                </li>
+                <li class="prodotto">
+                    <div class="prodotto-figura"><img src="img/attrezzatura/berretto.svg" alt="Berretto in lana Bivacco, disegno" loading="lazy"></div>
+                    <p class="prodotto-categoria">Berretto in lana</p>
+                    <h3 class="prodotto-nome">Bivacco</h3>
+                    <p class="prodotto-testo">Lana morbida e pon pon: per l'alba al rifugio e le soste al fresco.</p>
+                    <div class="prodotto-piede">
+                        <span class="prodotto-prezzo" data-prezzo="28"></span>
+                        <button class="bottone-pieno aggiungi-prodotto" type="button"
+                            data-id="bivacco" data-nome="Berretto Bivacco" data-prezzo="28"
+                            data-dettagli="Berretto in lana" data-immagine="img/attrezzatura/berretto.svg">Aggiungi</button>
+                    </div>
+                </li>
+                <li class="prodotto">
+                    <div class="prodotto-figura"><img src="img/attrezzatura/bastoncini.svg" alt="Bastoncini telescopici Ometto, disegno" loading="lazy"></div>
+                    <p class="prodotto-categoria">Bastoncini telescopici</p>
+                    <h3 class="prodotto-nome">Ometto</h3>
+                    <p class="prodotto-testo">Si allungano e si accorciano in un gesto, per la salita e per la discesa.</p>
+                    <div class="prodotto-piede">
+                        <span class="prodotto-prezzo" data-prezzo="69"></span>
+                        <button class="bottone-pieno aggiungi-prodotto" type="button"
+                            data-id="ometto" data-nome="Bastoncini Ometto" data-prezzo="69"
+                            data-dettagli="Bastoncini telescopici" data-immagine="img/attrezzatura/bastoncini.svg">Aggiungi</button>
+                    </div>
+                </li>
+                <li class="prodotto">
+                    <div class="prodotto-figura"><img src="img/attrezzatura/calze.svg" alt="Calze tecniche Ghiaione, disegno" loading="lazy"></div>
+                    <p class="prodotto-categoria">Calze tecniche</p>
+                    <h3 class="prodotto-nome">Ghiaione</h3>
+                    <p class="prodotto-testo">Rinforzate su tallone e punta, per i sentieri di sassi e ghiaia.</p>
+                    <div class="prodotto-piede">
+                        <span class="prodotto-prezzo" data-prezzo="18"></span>
+                        <button class="bottone-pieno aggiungi-prodotto" type="button"
+                            data-id="ghiaione" data-nome="Calze Ghiaione" data-prezzo="18"
+                            data-dettagli="Calze tecniche" data-immagine="img/attrezzatura/calze.svg">Aggiungi</button>
+                    </div>
+                </li>
+                <li class="prodotto">
+                    <div class="prodotto-figura"><img src="img/attrezzatura/custodia.svg" alt="Custodia per occhiali Guscio, disegno" loading="lazy"></div>
+                    <p class="prodotto-categoria">Custodia per occhiali</p>
+                    <h3 class="prodotto-nome">Guscio</h3>
+                    <p class="prodotto-testo">Rigida e con la cerniera, per portare Vento nello zaino senza graffi.</p>
+                    <div class="prodotto-piede">
+                        <span class="prodotto-prezzo" data-prezzo="24"></span>
+                        <button class="bottone-pieno aggiungi-prodotto" type="button"
+                            data-id="guscio" data-nome="Custodia Guscio" data-prezzo="24"
+                            data-dettagli="Custodia per occhiali" data-immagine="img/attrezzatura/custodia.svg">Aggiungi</button>
+                    </div>
+                </li>
+        </ul>
+    </section>
+
+    <!-- ===== la designer ===== -->
+    <section class="container content-wrapper dettagli" id="designer">
+        <div class="row">
+            <div class="col-12 col-lg-5">
+                <p class="etichetta">La designer</p>
+                <h2 class="titolo-sezione">Linda Garnaroli</h2>
+            </div>
+            <div class="col-12 col-lg-6 offset-lg-1">
+                <p class="testo-lungo">Vento è un progetto di Linda Garnaroli: un occhiale pensato per chi va in montagna, leggero da portare e semplice da leggere, in cui ogni parte ha un compito preciso.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== contatti =====
+         ATTENZIONE: email, telefono, indirizzo e Instagram sono esempi da sostituire con quelli veri
+         (l'email va cambiata anche in js/carrello.js, perché gli ordini arrivano lì) -->
+    <section class="container content-wrapper dettagli contatti" id="contatti">
+        <div class="row">
+            <div class="col-12 col-lg-5">
+                <p class="etichetta">Contatti</p>
+                <h2 class="titolo-sezione">Parliamone</h2>
+                <p class="testo-lungo">Per informazioni sugli occhiali, sugli ordini o per una prova dal vivo, scrivi o chiama: rispondiamo entro due giorni lavorativi.</p>
+            </div>
+            <div class="col-12 col-lg-6 offset-lg-1">
+                <dl class="elenco-contatti">
+                    <dt>Email</dt>
+                    <dd><a href="mailto:vento@example.com">vento@example.com</a></dd>
+                    <dt>Telefono</dt>
+                    <dd><a href="tel:+390000000000">+39 000 000 0000</a></dd>
+                    <dt>Studio</dt>
+                    <dd>Via Esempio 1, 20100 Milano<br>Su appuntamento</dd>
+                    <dt>Instagram</dt>
+                    <dd><a href="#">@vento.occhiali</a></dd>
+                </dl>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== il carrello: si apre da destra (js/carrello.js) ===== -->
+    <div class="carrello-sfondo" id="carrello-sfondo" hidden></div>
+    <aside class="carrello" id="carrello" aria-label="Carrello" aria-hidden="true">
+        <div class="carrello-testa">
+            <p class="etichetta">Carrello</p>
+            <button class="carrello-chiudi" id="carrello-chiudi" aria-label="Chiudi il carrello">Chiudi</button>
+        </div>
+
+        <!-- 1. gli occhiali nel carrello -->
+        <div class="carrello-passo" id="carrello-elenco-passo">
+            <p class="carrello-vuoto" id="carrello-vuoto">Il carrello è vuoto.</p>
+            <ul class="carrello-elenco" id="carrello-elenco"></ul>
+            <div class="carrello-totale" id="carrello-totale-riga">
+                <span>Totale</span>
+                <span id="carrello-totale"></span>
+            </div>
+            <button class="bottone-pieno bottone-largo" id="carrello-procedi">Procedi all'ordine</button>
+        </div>
+
+        <!-- 2. i dati per l'ordine -->
+        <form class="carrello-passo carrello-modulo" id="carrello-modulo" hidden>
+            <p class="carrello-spiega">Lascia i tuoi dati per la consegna e scegli come pagare.</p>
+
+            <fieldset>
+                <legend>Chi sei</legend>
+                <label>Nome e cognome<input type="text" name="nome" autocomplete="name" required></label>
+                <label>Email<input type="email" name="email" autocomplete="email" required></label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Dove spediamo</legend>
+                <label>Indirizzo (via e numero civico)<input type="text" name="indirizzo" autocomplete="address-line1" required></label>
+                <div class="modulo-riga">
+                    <label class="modulo-cap">CAP<input type="text" name="cap" autocomplete="postal-code" inputmode="numeric" maxlength="10" required></label>
+                    <label class="modulo-citta">Città<input type="text" name="citta" autocomplete="address-level2" required></label>
+                </div>
+                <label>Stato
+                    <select name="stato" autocomplete="country-name" required>
+                        <option value="Italia" selected>Italia</option>
+                        <option value="San Marino">San Marino</option>
+                        <option value="Svizzera">Svizzera</option>
+                        <option value="Austria">Austria</option>
+                        <option value="Francia">Francia</option>
+                        <option value="Germania">Germania</option>
+                        <option value="Spagna">Spagna</option>
+                        <option value="Slovenia">Slovenia</option>
+                        <option value="Altro">Altro (scrivilo nelle note)</option>
+                    </select>
+                </label>
+            </fieldset>
+
+            <!-- Il numero della carta NON si scrive qui: questo sito non ha un server e non può
+                 custodirlo. Con "Carta di credito" si apre la pagina di pagamento sicura di Stripe
+                 (il link si imposta in js/carrello.js, LINK_PAGAMENTO_CARTA). -->
+            <fieldset>
+                <legend>Pagamento</legend>
+                <label class="modulo-scelta"><input type="radio" name="pagamento" value="Carta di credito" checked>Carta di credito</label>
+                <label class="modulo-scelta"><input type="radio" name="pagamento" value="Bonifico bancario">Bonifico bancario</label>
+                <p class="carrello-spiega modulo-nota" id="nota-pagamento"></p>
+            </fieldset>
+
+            <label>Note (facoltative)<textarea name="note" rows="2"></textarea></label>
+            <button class="bottone-pieno bottone-largo" type="submit">Invia l'ordine</button>
+            <button class="bottone-vuoto bottone-largo" type="button" id="carrello-indietro">Torna al carrello</button>
+        </form>
+
+        <!-- 3. fatto -->
+        <div class="carrello-passo" id="carrello-fatto" hidden>
+            <p class="titolo-sezione">Grazie</p>
+            <p class="carrello-spiega" id="carrello-fatto-testo"></p>
+            <p class="carrello-spiega">Se la tua email non si è aperta, scrivici a <a href="mailto:vento@example.com">vento@example.com</a>.</p>
+            <button class="bottone-vuoto bottone-largo" id="carrello-ricomincia">Torna al carrello</button>
+        </div>
+    </aside>
+
+    <!-- ===== la finestra per provare gli occhiali con la fotocamera e scattare una foto ===== -->
+    <div class="prova" id="prova-occhiali" role="dialog" aria-modal="true" aria-labelledby="prova-titolo" hidden>
+        <div class="prova-finestra">
+            <div class="prova-testa">
+                <h2 class="prova-titolo" id="prova-titolo">Prova gli occhiali <span id="prova-nome"></span></h2>
+                <button class="giro" id="prova-chiudi">Chiudi</button>
+            </div>
+
+            <!-- il video della fotocamera, il 3D degli occhiali sopra e, dopo lo scatto, la foto -->
+            <div class="prova-scena" id="prova-scena">
+                <video playsinline muted></video>
+                <img class="prova-foto" alt="La tua foto con gli occhiali" hidden>
+                <p class="prova-messaggio">Accendo la fotocamera…</p>
+            </div>
+
+            <!-- grandezza degli occhiali sul viso: da 60% a 140% -->
+            <div class="slider prova-grandezza">
+                <label for="prova-grandezza">Grandezza degli occhiali <span id="prova-grandezza-valore">100%</span></label>
+                <div class="prova-grandezza-controlli">
+                    <button class="condividi" id="prova-rimpicciolisci" aria-label="Rimpicciolisci gli occhiali">−</button>
+                    <input type="range" id="prova-grandezza" min="60" max="140" step="2" value="100">
+                    <button class="condividi" id="prova-ingrandisci" aria-label="Ingrandisci gli occhiali">+</button>
+                </div>
+            </div>
+
+            <div class="prova-bottoni">
+                <button class="btn-principale" id="prova-scatta" disabled>Scatta la foto</button>
+                <button class="giro" id="prova-rifai" hidden>Rifai</button>
+            </div>
+
+            <!-- dopo lo scatto: scaricare la foto o mandarla -->
+            <div class="prova-condividi" id="prova-condividi" hidden>
+                <a class="btn-principale" id="prova-scarica" href="#">Scarica</a>
+                <button class="condividi" data-app="instagram">Instagram</button>
+                <button class="condividi" data-app="whatsapp">WhatsApp</button>
+                <button class="condividi" data-app="email">Email</button>
+            </div>
+            <p class="prova-avviso" id="prova-avviso" role="status" hidden></p>
+
+            <p class="nota">La fotocamera serve solo qui e la foto resta sul tuo dispositivo finché non la scarichi o la mandi. Sul telefono Instagram, WhatsApp ed Email aprono il menu Condividi con la foto già pronta.</p>
+        </div>
+    </div>
+
+    <!-- l'avviso "aggiunto al carrello" -->
+    <p class="avviso-carrello" id="avviso-carrello" role="status" hidden></p>
+
+    <!-- ===== piè di pagina: il profilo di un sentiero e le montagne ===== -->
+    <footer class="piede">
+        <img class="piede-profilo" src="img/profilo.svg" alt="">
+        <p class="piede-marchio">Vento</p>
+        <p>Occhiali da trekking &nbsp;·&nbsp; Linda Garnaroli &nbsp;·&nbsp; Buon cammino</p>
+    </footer>
+
+    <!-- lo script del menu per il telefono (come in index.html) -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const btnMenu = document.querySelector('.btn-menu');
+    const btnClose = document.querySelector('.btn-close');
+    const mobileNavWrapper = document.querySelector('.mobile-nav-wrapper');
+    
+    // Assicurati che il display sia flex prima di aggiungere show
+    btnMenu.addEventListener('click', function() {
+        mobileNavWrapper.style.display = 'flex';
+        // Piccolo delay per permettere al display di attivarsi
+        setTimeout(() => {
+            mobileNavWrapper.classList.add('show');
+        }, 10);
+    });
+    
+    // Chiude il menu mobile
+    function closeMenu() {
+        mobileNavWrapper.classList.remove('show');
+        // Rimuovi display dopo l'animazione
+        setTimeout(() => {
+            if (!mobileNavWrapper.classList.contains('show')) {
+                mobileNavWrapper.style.display = 'none';
+            }
+        }, 300); // Stesso tempo della transizione CSS
+    }
+    
+    btnClose.addEventListener('click', closeMenu);
+    
+    // le voci portano alle sezioni di questa pagina: cliccando una voce
+    // (o lo sfondo) il menu si chiude sempre
+    mobileNavWrapper.addEventListener('click', closeMenu);
+});
+</script>
+
+</body>
+</html>
