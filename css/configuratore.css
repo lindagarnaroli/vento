@@ -1,0 +1,561 @@
+/* configuratore.css – la sezione "In mostra" con il visualizzatore 3D
+   (si aggiunge a stile_esercizio4.css senza modificarlo) */
+
+.sezione-configuratore {
+    padding-top: 48px;
+}
+
+/* ===== visore 3D (colonna sinistra) ===== */
+/* PASSO 3: il visore */
+.visore {
+    position: relative;
+    height: 675px;
+    background: #f3efe8;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* il canvas creato da Three.js riempie il visore (ci servirà dall'es. 2) */
+.visore canvas {
+    display: block;
+}
+
+/* PASSO 4: la scritta al centro del visore */
+.visore-segnaposto {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.45);
+    text-align: center;
+}
+
+
+/* ===== pannello opzioni (colonna destra) ===== */
+.pannello {
+    padding: 8px 0 32px 0;
+}
+
+.sovratitolo {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.5);
+    margin: 0 0 4px 0;
+}
+
+.descrizione {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.opzione {
+    border-top: solid 1px #e5e0d6;
+    padding: 16px 0;
+}
+
+.opzione-titolo {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.opzione-valore {
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.55);
+}
+
+/* PASSO 5: i campioni in fila */
+
+
+/* PASSO 6: i campioni diventano cerchi e quello scelto si riconosce */
+
+
+/* PASSO 7: i bottoni dei gruppi Forma e Finitura */
+.forme {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.forma,
+.modello,
+.vista,
+.interruttore,
+.giro,
+.stanghette,
+.separa,
+.finitura {
+    background: #ffffff;
+    color: #222222;
+    border: solid 1px #d9d0c1;
+    border-radius: 4px;
+    padding: 11px 14px;
+    font: inherit;
+    font-size: 14px;
+    line-height: 17px;
+    cursor: pointer;
+}
+
+.forma:hover,
+.modello:hover,
+.vista:hover,
+.interruttore:hover,
+.giro:hover,
+.stanghette:hover,
+.separa:hover,
+.finitura:hover {
+    border-color: #222222;
+}
+
+.forma.selected,
+.modello.selected,
+.vista.selected,
+.interruttore.selected,
+.giro.selected,
+.stanghette.selected,
+.separa.selected,
+.finitura.selected {
+    background: #222222;
+    border-color: #222222;
+    color: #ffffff;
+}
+
+
+/* slider della grandezza */
+.slider {
+    margin-top: 16px;
+}
+
+.slider label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.7);
+    margin-bottom: 6px;
+}
+
+.slider input {
+    width: 100%;
+    accent-color: #222222;
+    cursor: pointer;
+}
+
+
+/* ===== nota e bottone ===== */
+.nota {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.55);
+    border-top: solid 1px #e5e0d6;
+    padding-top: 16px;
+    margin: 0;
+}
+
+.btn-principale {
+    display: block;
+    width: 100%;
+    background: #e06a35;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 14px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-principale:hover {
+    background: #c4541f;
+}
+
+/* ===== media query del configuratore ===== */
+@media (max-width: 991px) {
+    /* PASSO 8: il visore su tablet e telefono */
+    .visore {
+        height: 420px;
+        margin-bottom: 24px;
+    }
+}
+
+/* bottoni rotondi per scegliere il colore */
+.campioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.campione {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 0;
+}
+
+.campione.selected {
+    outline: 2px solid #222;
+    outline-offset: 3px;
+}
+
+
+/* ===== row viste ed esploso degli occhiali ===== */
+/* su computer i due box sono un po' più bassi del visore grande */
+@media (min-width: 992px) {
+    .visore.visore-medio {
+        height: 520px;
+    }
+}
+
+/* la griglia 2 x 2 sopra il 3D: linee di divisione e nome di ogni vista */
+.griglia-viste {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    pointer-events: none;   /* il mouse passa attraverso */
+}
+
+.griglia-viste span {
+    padding: 10px 12px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(0, 0, 0, 0.5);
+    border-color: #e5e0d6;
+    border-style: solid;
+    border-width: 0;
+}
+
+/* linee in mezzo: a destra delle celle di sinistra, sotto le celle in alto */
+.griglia-viste span:nth-child(1),
+.griglia-viste span:nth-child(3) {
+    border-right-width: 1px;
+}
+
+.griglia-viste span:nth-child(1),
+.griglia-viste span:nth-child(2) {
+    border-bottom-width: 1px;
+}
+
+/* le etichette dei pezzi nell'esploso */
+.etichetta-esploso {
+    background: #ffffff;
+    border: solid 1px #d9d0c1;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 12px;
+    color: #222222;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.didascalia {
+    margin-top: 16px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+
+/* il campione "colori originali": un cerchio diviso in quattro colori */
+.campione-originale {
+    background: conic-gradient(#e06a35 0 25%, #1B2A49 0 50%, #EDEAE3 0 75%, #4F6B45 0);
+}
+
+/* bottoni non disponibili (es. occhiali senza stanghette) */
+.stanghette:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: #d9d0c1;
+}
+
+/* ===== la collezione: tutti gli occhiali insieme, un box per modello ===== */
+.griglia-galleria {
+    position: relative;   /* il canvas 3D si appoggia sopra tutta la griglia */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);   /* 3 colonne a tutta larghezza */
+    gap: 16px;
+}
+
+/* un solo canvas disegna dentro tutti i box: sta sopra la griglia e lascia passare il mouse */
+.griglia-galleria canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.visore.visore-galleria {
+    height: 300px;
+    cursor: grab;
+    touch-action: pan-y;   /* sul telefono si può ancora scorrere la pagina */
+}
+
+/* nome del modello e scritta di caricamento sopra il 3D */
+.nome-box {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    z-index: 2;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+}
+
+.visore-galleria .visore-segnaposto {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+}
+
+@media (max-width: 991px) {
+    .visore.visore-galleria {
+        height: 280px;
+        margin-bottom: 0;
+    }
+}
+
+/* tablet: 2 colonne; telefono: 1 colonna */
+@media (max-width: 991px) {
+    .griglia-galleria {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 575px) {
+    .griglia-galleria {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* nella griglia ogni box è un link alla pagina dell'occhiale */
+a.visore.visore-galleria {
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+a.visore-galleria:focus-visible {
+    outline: 2px solid #222222;
+    outline-offset: 3px;
+}
+
+/* ===== occhiale.html: la pagina di un occhiale ===== */
+/* un solo box grande, come il visore degli altri configuratori */
+.griglia-galleria.griglia-singola {
+    grid-template-columns: 1fr;
+}
+
+.griglia-singola .visore.visore-galleria {
+    height: 600px;
+}
+
+@media (max-width: 991px) {
+    .griglia-singola .visore.visore-galleria {
+        height: 420px;
+        margin-bottom: 24px;
+    }
+}
+
+.link-torna {
+    font-size: 14px;
+    color: #222222;
+}
+
+/* autori e stanghette, in coppie titolo / valore */
+.scheda-occhiale {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 16px;
+    font-size: 14px;
+    margin: 16px 0 8px 0;
+}
+
+.scheda-occhiale dt {
+    font-weight: bold;
+}
+
+.scheda-occhiale dd {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* precedente e successivo, ai due lati */
+.sfoglia-occhiali {
+    display: flex;
+    justify-content: space-between;
+    border-top: solid 1px #e5e0d6;
+    padding-top: 16px;
+    font-size: 15px;
+}
+
+.sfoglia-occhiali a {
+    color: #222222;
+}
+
+/* ===== prova con la fotocamera (occhiale.html) ===== */
+.prova {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.prova[hidden] {
+    display: none;
+}
+
+.prova-finestra {
+    background: #ffffff;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 960px;
+    max-height: 100%;
+    overflow: auto;
+    padding: 16px;
+}
+
+.prova-testa {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.prova-titolo {
+    font-size: 18px;
+    margin: 0;
+}
+
+/* la scena prende la forma del video (lo script imposta aspect-ratio e larghezza) */
+.prova-scena {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    margin: 0 auto;
+    background: #111111;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* video e 3D girati come in uno specchio; la foto scattata è già girata */
+.prova-scena video,
+.prova-scena .prova-3d,
+.prova-foto {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+.prova-scena video,
+.prova-scena .prova-3d {
+    transform: scaleX(-1);
+}
+
+.prova-foto {
+    z-index: 2;
+}
+
+.prova-messaggio {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 16px;
+    z-index: 3;
+    margin: 0 16px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #222222;
+    font-size: 14px;
+    text-align: center;
+}
+
+.prova-bottoni,
+.prova-condividi {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.prova-bottoni .btn-principale,
+.prova-condividi .btn-principale {
+    width: auto;
+    padding: 12px 20px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.prova-bottoni [hidden],
+.prova-condividi[hidden] {
+    display: none;
+}
+
+.condividi {
+    background: #ffffff;
+    color: #222222;
+    border: solid 1px #d9d0c1;
+    border-radius: 4px;
+    padding: 11px 16px;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.condividi:hover {
+    border-color: #222222;
+}
+
+.prova-avviso {
+    margin: 12px 0 0 0;
+    font-size: 14px;
+    color: #222222;
+    background: #f3efe8;
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+
+.prova-avviso[hidden] {
+    display: none;
+}
+
+#prova-apri:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+/* lo slider della grandezza degli occhiali nella prova con la fotocamera */
+.prova-grandezza {
+    margin-top: 12px;
+}
+
+.prova-grandezza-controlli {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.prova-grandezza-controlli .condividi {
+    width: 40px;
+    padding: 8px 0;
+    font-size: 18px;
+    line-height: 1;
+}
